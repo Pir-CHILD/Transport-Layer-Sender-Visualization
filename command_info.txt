@@ -1,0 +1,22 @@
+> sudo tc qdisc add dev eth0 root netem loss 20%
+
+> iperf3 -c 47.94.104.34 -p 12306 -t 1000 -b 5M
+
+> ps -A | grep iperf
+2907681 pts/9    00:00:00 iperf3
+
+> sudo stap test.stp | grep 2131681
+2907681 ca_state=0x3 sk=0xffff8ec28f34c600
+
+> sudo stap test.stp
+0 ca_state=0x0 sk=0xffff8ec28f34c600
+0 ca_state=0x1 sk=0xffff8ec28f34c600
+315738 ca_state=0x3 sk=0xffff8ec28f34c600
+0 ca_state=0x4 sk=0xffff8ec28f34c600
+0 ca_state=0x0 sk=0xffff8ec28f34c600
+315738 ca_state=0x4 sk=0xffff8ec28f34c600
+315738 ca_state=0x0 sk=0xffff8ec28f34c600
+315738 ca_state=0x1 sk=0xffff8ec28f34c600
+315738 ca_state=0x3 sk=0xffff8ec28f34c600
+
+> ps -A | grep iperf > t.txt | sudo time.stp >> t.txt
