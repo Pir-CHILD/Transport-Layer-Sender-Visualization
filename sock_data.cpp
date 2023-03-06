@@ -1,8 +1,8 @@
 #include "sock_data.h"
 
-const char *SockDate::state_machine[5] = {"Open     ", "Disorder ", "CWR      ", "Recovery ", "Loss     "};
+const char *SockData::state_machine[5] = {"Open     ", "Disorder ", "CWR      ", "Recovery ", "Loss     "};
 
-SockDate::SockDate(std::string s)
+SockData::SockData(std::string s)
 {
     sk_add = s;
     last_time_info.last_state = -1;
@@ -18,7 +18,7 @@ SockDate::SockDate(std::string s)
     }
 }
 
-SockDate::~SockDate()
+SockData::~SockData()
 {
     for (int i = 0; i < 5; i++)
     {

@@ -32,7 +32,7 @@ struct StateCount
     int count;
 };
 
-class SockDate
+class SockData
 {
 public:
     StateCount state_count[5];
@@ -41,8 +41,8 @@ public:
     std::vector<long long> timestamp_record;
     std::vector<StateChangeInfoMsItem> state_change_info;
 
-    SockDate(std::string s);
-    ~SockDate();
+    SockData(std::string s);
+    ~SockData();
 
     std::string get_sk_add() const { return sk_add; }
     LastTimeInfo get_last_time_info() const { return last_time_info; }
