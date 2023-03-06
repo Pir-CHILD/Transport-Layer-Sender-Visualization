@@ -46,6 +46,11 @@ public:
 
     std::string get_sk_add() const { return sk_add; }
     LastTimeInfo get_last_time_info() const { return last_time_info; }
+    void update_last_time_info(int state_t, long long timestamp_t)
+    {
+        last_time_info.last_state = state_t;
+        last_time_info.last_time = timestamp_t;
+    }
 
 private:
     std::string sk_add;

@@ -59,7 +59,7 @@ int DB::connect_db(const char *d)
     }
 }
 
-int DB::send_count_info(SockDate *sock_data, const char *cc_info)
+int DB::send_count_info(SockData *sock_data, const char *cc_info)
 {
     const char *d = "count_info";
     std::string table_name = strcmp(cc_info, "cubic") == 0
@@ -95,7 +95,7 @@ int DB::send_count_info(SockDate *sock_data, const char *cc_info)
     return 1; // fail
 }
 
-int DB::send_change_info_ms(SockDate *sock_data, const char *cc_info, const char *test_info)
+int DB::send_change_info_ms(SockData *sock_data, const char *cc_info, const char *test_info)
 {
     const char *d = "change_info";
     std::string table_name = strcmp(cc_info, "cubic") == 0
@@ -130,7 +130,7 @@ int DB::send_change_info_ms(SockDate *sock_data, const char *cc_info, const char
     return 1;
 }
 
-int DB::send_transfer_info_min(SockDate *sock_data, const char *cc_info)
+int DB::send_transfer_info_min(SockData *sock_data, const char *cc_info, const char *test_info)
 {
     // TODO
 }
