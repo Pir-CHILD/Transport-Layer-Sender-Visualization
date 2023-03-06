@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
         deal_data(sock_data);
 
         DB *db = new DB{"localhost", "root", "zaq.1234"};
-        db->send_count_info(sock_data, cc_info);
-        db->send_change_info_ms(sock_data, cc_info, file_name);
+        // db->send_count_info(sock_data, cc_info, file_name);
+        // db->send_change_info_ms(sock_data, cc_info, file_name);
         // db->send_transfer_info_min(sock_data, cc_info, file_name);
     }
     return 0;

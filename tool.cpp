@@ -20,10 +20,7 @@ int split(std::string &line, std::string &pid, std::string &state, std::string &
             }
         }
     }
-    else
-    {
-        return 1; // fail
-    }
+    return 1; // fail
 }
 
 void clear_strings(std::string &line, std::string &pid, std::string &state, std::string &sk_add, std::string &timestamp)
@@ -51,7 +48,7 @@ int state_2_num(std::string &state)
         return 5; // fail
 }
 
-std::string &convert_timestamp(long long timestamp)
+std::string convert_timestamp(long long timestamp)
 {
     // get a precise timestamp as a string
     const std::chrono::duration<long long, std::milli> dur(timestamp);
@@ -118,6 +115,7 @@ void deal_data(SockData *sock_data)
     for (std::vector<StateChangeInfoMsItem>::iterator it = sock_data->state_change_info.begin(); it != sock_data->state_change_info.end(); it++)
     {
         sock_data->state_count[it->state].count++;
+        sock_data->timestamp_record.push_back(it->timestamp);
     }
     // TODO: need to deal per min count?
 }
