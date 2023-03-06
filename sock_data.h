@@ -1,3 +1,5 @@
+#ifndef _SOCK_DATA_H
+#define _SOCK_DATA_H
 #include <cstring>
 #include <vector>
 #include <string>
@@ -49,3 +51,4 @@ private:
     std::string sk_add;
     LastTimeInfo last_time_info;
 };
+#endif

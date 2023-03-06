@@ -1,5 +1,8 @@
+#ifndef _DB_H
+#define _DB_H
 #include <mysql/mysql.h>
-#include "tool.h"
+#include "tools.h"
+#include "sock_data.h"
 
 class DB
 {
@@ -21,3 +24,4 @@ private:
     char *db;
     int port;
 };
+#endif
