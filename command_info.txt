@@ -20,3 +20,5 @@
 315738 ca_state=0x3 sk=0xffff8ec28f34c600
 
 > ps -A | grep iperf > t.txt | sudo time.stp >> t.txt
+
+> ps -A | grep iperf | awk '{print $1}' > t.txt | sudo time.stp >> t.txt
