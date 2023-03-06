@@ -14,12 +14,6 @@ DB::DB()
         fprintf(stderr, "could not initialize MySQL client library\n");
         exit(1);
     }
-    mysql = mysql_init(NULL);
-    if (mysql == NULL)
-    {
-        fprintf(stderr, "could not initialize mysql\n");
-        exit(1);
-    }
 }
 
 DB::DB(const char *h, const char *u, const char *p)
@@ -36,12 +30,6 @@ DB::DB(const char *h, const char *u, const char *p)
         fprintf(stderr, "could not initialize MySQL client library\n");
         exit(1);
     }
-    mysql = mysql_init(NULL);
-    if (mysql == NULL)
-    {
-        fprintf(stderr, "could not initialize mysql\n");
-        exit(1);
-    }
 }
 
 DB::~DB()
@@ -51,12 +39,17 @@ DB::~DB()
     delete passwd;
     delete db;
 
-    mysql_close(mysql);
     mysql_library_end();
 }
 
 int DB::connect_db(const char *d)
 {
+    mysql = mysql_init(NULL);
+    if (mysql == NULL)
+    {
+        fprintf(stderr, "could not initialize mysql\n");
+        exit(1);
+    }
     db = new char[strlen(d)];
     strcpy(db, d);
     mysql = mysql_real_connect(mysql, host, user, passwd, db, port, NULL, 0);
@@ -103,6 +96,7 @@ int DB::send_count_info(SockData *sock_data, const char *cc_info, const char *te
             return 1;
         }
 
+        mysql_close(mysql); // close connect
         return 0;
     }
     return 1; // fail
@@ -138,6 +132,7 @@ int DB::send_change_info_ms(SockData *sock_data, const char *cc_info, const char
                 return 1;
             }
         }
+        mysql_close(mysql);
         return 0;
     }
     return 1;
