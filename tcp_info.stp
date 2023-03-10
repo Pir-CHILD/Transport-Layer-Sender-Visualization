@@ -1,44 +1,47 @@
 #! /usr/bin/env stap
 
-global send_bytes, recv_bytes, ports, src_ips, rtos, mss, ssthresh, cwnd
-global send_bytes_by_pid, recv_bytes_by_pid
+// 47.94.104.34
+
+global send_bytes, recv_bytes, rtos, mss, ssthresh, cwnd
+global src_ip
 
 function print_report()
 {
-        printf("%d\t%d\t%d\t%d\t%d\t%s\t%d\t%d\t%d\t%d\n",
-                gettimeofday_s(), pid(), send_bytes_by_pid[pid()], recv_bytes_by_pid[pid()], ports, src_ips, rtos, mss, ssthresh, cwnd);
+        printf("%14d %10d %10d %6d %6d %10d %10d\n",
+                gettimeofday_ms(), send_bytes, recv_bytes, rtos, mss, ssthresh, cwnd);
 }
 
-probe tcp.sendmsg {
-        ports   = inet_get_local_port(sock)
-        src_ips = inet_get_ip_source(sock)
-        rtos    = tcp_get_info_rto(sock)
+probe tcp.sendmsg {    
+        src_ip = inet_get_ip_source(sock)
+        if (src_ip == "47.94.104.34") {
+                rtos    = tcp_get_info_rto(sock)
+        }
 }
 
 probe tcp.recvmsg {
-        cwnd     = tcp_get_info_snd_cwnd(sock)
-        mss      = tcp_ts_get_info_rcv_mss(sock)
-        ssthresh = tcp_ts_get_info_snd_ssthresh(sock)
+        if (daddr == "47.94.104.34" || saddr == "47.94.104.34") {
+                cwnd     = tcp_get_info_snd_cwnd(sock)
+                mss      = tcp_ts_get_info_rcv_mss(sock)
+                ssthresh = tcp_ts_get_info_snd_ssthresh(sock)
+                // printf("hhh\n");
+        }
 }
 
 probe tcp.sendmsg.return {
-        if (size > 0) {
-                send_bytes += size
-                send_bytes_by_pid[pid()] += size
+        // src_ip = inet_get_ip_source(sock)
+        if (src_ip == "47.94.104.34" && size > 0) {
+                send_bytes += size            
         }
 }
 
 probe tcp.recvmsg.return {
-        if (size > 0) {
+        if (daddr == "47.94.104.34" && size > 0) {
                 recv_bytes += size
-                recv_bytes_by_pid[pid()] += size
         }
 }
 
 probe tcp.disconnect {
         print_report()
-        delete send_bytes_by_pid[pid()]
-        delete recv_bytes_by_pid[pid()]
 }
 
 probe timer.s(1) {
@@ -46,6 +49,6 @@ probe timer.s(1) {
 }
 
 probe begin {
-        printf("timestamp\tpid\tsend_bytes\trecv_bytes\tports\tsrc_ips\trtos\tmss\tssthresh\tcwnd\n");
+        printf("%14s %10s %10s %6s %6s %10s %10s\n", "timestamp", "send_bytes", "recv_bytes", "rtos", "mss", "ssthresh", "cwnd");
 }
 
