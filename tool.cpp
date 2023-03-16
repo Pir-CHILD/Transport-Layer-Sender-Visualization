@@ -167,7 +167,7 @@ void cmd_get_state_info(SockData *sock_data)
         }
         clear_strings(line, pid_t, state_t, sk_add_t, timestamp_t);
 
-        if (sock_data->state_change_info.size() >= 20)
+        if (sock_data->state_change_info.size() >= 10)
         {
             db->send_change_info_ms(sock_data, "cubic");
             sock_data->state_change_info.clear();
