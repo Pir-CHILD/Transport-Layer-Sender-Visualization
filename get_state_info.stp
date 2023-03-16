@@ -1,5 +1,5 @@
 #! /usr/bin/env stap
 
 probe kernel.function("tcp_set_ca_state") {
-  printf ("%ld %s\n", pid(), $$parms)
+  printf ("%ld %s %ld\n", pid(), $$parms, gettimeofday_ms())
 }
