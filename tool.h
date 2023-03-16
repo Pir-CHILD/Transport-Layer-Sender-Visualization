@@ -5,6 +5,9 @@
 #include <chrono>
 #include <iomanip>
 #include <fstream>
+#include <cstdio>
+#include <assert.h>
+#include "db.h"
 
 int split(std::string &line, std::string &pid, std::string &state, std::string &sk_add, std::string &timestamp);
 
@@ -17,4 +20,8 @@ std::string convert_timestamp(long long timestamp);
 SockData *extract_data(const char *file_name);
 
 void deal_data(SockData *sock_data);
+
+void cmd_get_sk_add(std::string &sk_add);
+
+void cmd_get_state_info(SockData *sock_data);
 #endif

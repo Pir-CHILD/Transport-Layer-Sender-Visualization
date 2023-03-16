@@ -119,3 +119,62 @@ void deal_data(SockData *sock_data)
     }
     // TODO: need to deal per min count?
 }
+
+void cmd_get_sk_add(std::string &sk_add)
+{
+    const char *cmd = "stap-4.8 ./get_sock_add.stp";
+    FILE *fp = popen(cmd, "r");
+    assert(fp != NULL);
+
+    char buf[100];
+    // ffff926719db88c0        47.94.104.34
+    // between isn't space but \t !!!
+    if (fgets(buf, 100, fp) != NULL)
+    {
+        char token[20] = "";
+        for (int i = 0; i < 100 && buf[i] != ' ' && buf[i] != '\t'; i++)
+            token[i] = buf[i];
+        sk_add = token;
+    }
+    std::cout << sk_add << std::endl;
+    pclose(fp);
+}
+
+void cmd_get_state_info(SockData *sock_data)
+{
+    DB *db = new DB{"localhost", "root", "zaq.1234"};
+    const char *cmd = "stap-4.8 ./get_state_info.stp";
+    FILE *fp = popen(cmd, "r");
+    assert(fp != NULL);
+
+    char buf[100];
+    std::string line, pid_t, state_t, sk_add_t, timestamp_t;
+    while (fgets(buf, 100, fp) != NULL)
+    {
+        line = buf;
+        // std::cout << line;
+
+        split(line, pid_t, state_t, sk_add_t, timestamp_t);
+        sk_add_t = sk_add_t.substr(5); // remove prefix "sk=0x"
+        // std::cout << sock_data->get_sk_add() << " " << sk_add_t << std::endl;
+        if (!sock_data->get_sk_add().compare(sk_add_t))
+        {
+            StateChangeInfoMsItem t;
+            t.pid = std::stoi(pid_t);
+            t.state = state_2_num(state_t);
+            t.timestamp = std::stoll(timestamp_t, NULL, 10);
+            sock_data->state_change_info.push_back(t);
+        }
+        clear_strings(line, pid_t, state_t, sk_add_t, timestamp_t);
+
+        if (sock_data->state_change_info.size() >= 20)
+        {
+            db->send_change_info_ms(sock_data, "cubic");
+            sock_data->state_change_info.clear();
+        }
+    }
+    // for (std::vector<StateChangeInfoMsItem>::iterator it = sock_data->state_change_info.begin(); it != sock_data->state_change_info.end(); it++)
+    // {
+    //     std::cout << it->pid << " " << it->state << " " << it->timestamp << std::endl;
+    // }
+}
