@@ -102,6 +102,42 @@ int DB::send_count_info(SockData *sock_data, const char *cc_info, const char *te
     return 1; // fail
 }
 
+int DB::send_change_info_ms(SockData *sock_data, const char *cc_info)
+{
+    const char *d = "change_info";
+    std::string table_name = strcmp(cc_info, "cubic") == 0
+                                 ? "cubic_change_info"
+                                 : "bbr_change_info";
+    if (!connect_db(d))
+    {
+        int query_res = -1;
+
+        std::string CREATE_STATEMENT =
+            "CREATE TABLE if not exists " + table_name + " (begin_time VARCHAR(30) NOT NULL, pid INT, state INT NOT NULL, read_time DATETIME(3), PRIMARY KEY (begin_time, state))";
+        query_res = mysql_query(mysql, CREATE_STATEMENT.c_str());
+        if (query_res)
+        {
+            std::cerr << mysql_error(mysql) << std::endl;
+            return 1;
+        }
+
+        for (std::vector<StateChangeInfoMsItem>::iterator it = sock_data->state_change_info.begin(); it != sock_data->state_change_info.end(); it++)
+        {
+            std::string INSERT_STATEMENT =
+                "INSERT INTO " + table_name + " (begin_time, pid, state, read_time) VALUES (" + std::to_string(it->timestamp) + ", " + std::to_string(it->pid) + ", " + std::to_string(it->state) + ", \"" + convert_timestamp(it->timestamp) + "\")";
+            query_res = mysql_query(mysql, INSERT_STATEMENT.c_str());
+            if (query_res)
+            {
+                std::cerr << mysql_error(mysql) << std::endl;
+                return 1;
+            }
+        }
+        mysql_close(mysql);
+        return 0;
+    }
+    return 1;
+}
+
 int DB::send_change_info_ms(SockData *sock_data, const char *cc_info, const char *test_info)
 {
     const char *d = "change_info";
