@@ -1,8 +1,8 @@
 #ifndef _DB_H
 #define _DB_H
 #include <mysql/mysql.h>
-#include "tool.h"
-#include "sock_data.h"
+#include "../tool/tool.h"
+#include "../sock_data/sock_data.h"
 
 class DB
 {

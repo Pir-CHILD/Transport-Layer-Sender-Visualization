@@ -32,6 +32,4 @@
 *.app
 
 .vscode
-test_info/*
-state_machine.cpp
 build/

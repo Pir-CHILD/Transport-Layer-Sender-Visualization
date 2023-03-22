@@ -122,7 +122,7 @@ void deal_data(SockData *sock_data)
 
 void cmd_get_sk_add(std::string &sk_add)
 {
-    const char *cmd = "stap-4.8 ./get_sock_add.stp";
+    const char *cmd = "stap-4.8 ../script/systemtap/get_sock_add.stp";
     FILE *fp = popen(cmd, "r");
     assert(fp != NULL);
 
@@ -142,8 +142,8 @@ void cmd_get_sk_add(std::string &sk_add)
 
 void cmd_get_state_info(SockData *sock_data)
 {
-    DB *db = new DB{"localhost", "root", "zaq.1234"};
-    const char *cmd = "stap-4.8 ./get_state_info.stp";
+    DB *db = new DB{"localhost", "zq", "zaq.1234"};
+    const char *cmd = "stap-4.8 ../script/systemtap/get_state_info.stp";
     FILE *fp = popen(cmd, "r");
     assert(fp != NULL);
 

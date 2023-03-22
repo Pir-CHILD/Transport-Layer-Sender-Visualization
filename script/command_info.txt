@@ -23,4 +23,4 @@
 
 > ps -A | grep iperf | awk '{print $1}' > t.txt | sudo time.stp >> t.txt
 
-g++ main.cpp sock_data.cpp tool.cpp db.cpp -o state_machine -lmysqlclient
+g++ ./src/main.cpp ./src/sock_data/sock_data.cpp ./src/tool/tool.cpp ./src/db/db.cpp -o ./build/state_machine -lmysqlclient

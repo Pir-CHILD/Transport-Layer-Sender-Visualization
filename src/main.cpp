@@ -1,5 +1,5 @@
-#include "sock_data.h"
-#include "tool.h"
+#include "./sock_data/sock_data.h"
+#include "./tool/tool.h"
 // #include "db.h"
 
 int main(int argc, char *argv[])
@@ -21,8 +21,9 @@ int main(int argc, char *argv[])
         SockData *sock_data = new SockData(sk_add);
         cmd_get_state_info(sock_data);
 
+        delete sock_data;
+
         // DB *db = new DB{"localhost", "root", "zaq.1234"};
-        // DB *db = new DB{"localhost", "skf", "Aa@123456"};
         // db->send_count_info(sock_data, cc_info, file_name);
         // db->send_change_info_ms(sock_data, cc_info);
         // db->send_transfer_info_min(sock_data, cc_info, file_name);
