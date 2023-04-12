@@ -3,5 +3,10 @@ visualize the sender‘s info: Congesion Control State Machine, inflight, throug
 
 need install libmysqlclient-dev
 
+```shell
 mkdir build
-g++ main.cpp sock_data.cpp tool.cpp db.cpp -o ./build/state_machine -lmysqlclient
+cd build
+cmake ../src/
+make
+./state_machine a b
+```

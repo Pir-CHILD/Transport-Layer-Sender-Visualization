@@ -2,7 +2,7 @@
 
 probe tcp.sendmsg {
 	src_ips = inet_get_ip_source(sock)
-	if (src_ips == "47.94.104.34") {
+	if (src_ips == "101.43.161.79" || src_ips == "43.140.208.229") {
 		printf("%x\t%s\n", sock, src_ips);
 		exit();
 	}

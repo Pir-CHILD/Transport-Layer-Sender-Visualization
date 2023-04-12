@@ -142,7 +142,7 @@ void cmd_get_sk_add(std::string &sk_add)
 
 void cmd_get_state_info(SockData *sock_data)
 {
-    DB *db = new DB{"localhost", "root", "zaq.1234"};
+    DB *db = new DB{"101.43.161.79", "zq", "zaq.1234"};
     const char *cmd = "stap-4.8 /home/test/Transport-Layer-Sender-Visualization/script/systemtap/get_state_info.stp";
     FILE *fp = popen(cmd, "r");
     assert(fp != NULL);
