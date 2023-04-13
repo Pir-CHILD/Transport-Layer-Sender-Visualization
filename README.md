@@ -8,5 +8,5 @@ mkdir build
 cd build
 cmake ../src/
 make
-./state_machine a b
+./state_machine dest_ip
 ```

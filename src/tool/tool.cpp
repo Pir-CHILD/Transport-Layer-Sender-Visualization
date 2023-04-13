@@ -120,9 +120,11 @@ void deal_data(SockData *sock_data)
     // TODO: need to deal per min count?
 }
 
-void cmd_get_sk_add(std::string &sk_add)
+void cmd_get_sk_add(std::string &sk_add, const char *dest_ip)
 {
-    const char *cmd = "stap-4.8 /home/test/Transport-Layer-Sender-Visualization/script/systemtap/get_sock_add.stp";
+    char cmd_1[] = "stap-4.8 /home/test/Transport-Layer-Sender-Visualization/script/systemtap/get_sock_add.stp ";
+    strcat(cmd_1, dest_ip);
+    const char *cmd = cmd_1;
     FILE *fp = popen(cmd, "r");
     assert(fp != NULL);
 
