@@ -149,7 +149,7 @@ int DB::send_change_info_ms(SockData *sock_data, const char *cc_info, const char
         int query_res = -1;
 
         std::string CREATE_STATEMENT =
-            "CREATE TABLE if not exists " + table_name + " (begin_time VARCHAR(30) NOT NULL, pid INT, state INT NOT NULL, read_time DATETIME(3), test_info VARCHAR(50), PRIMARY KEY (begin_time, state))";
+            "CREATE TABLE if not exists " + table_name + " (begin_time VARCHAR(30) NOT NULL, pid INT, state INT NOT NULL, read_time DATETIME(3), test_info INT, PRIMARY KEY (begin_time, state, test_info))";
         query_res = mysql_query(mysql, CREATE_STATEMENT.c_str());
         if (query_res)
         {
@@ -160,7 +160,8 @@ int DB::send_change_info_ms(SockData *sock_data, const char *cc_info, const char
         for (std::vector<StateChangeInfoMsItem>::iterator it = sock_data->state_change_info.begin(); it != sock_data->state_change_info.end(); it++)
         {
             std::string INSERT_STATEMENT =
-                "INSERT INTO " + table_name + " (begin_time, pid, state, read_time, test_info) VALUES (" + std::to_string(it->timestamp) + ", " + std::to_string(it->pid) + ", " + std::to_string(it->state) + ", \"" + convert_timestamp(it->timestamp) + "\", \"" + test_info + "\")";
+                "INSERT INTO " + table_name + " (begin_time, pid, state, read_time, test_info) VALUES (" + std::to_string(it->timestamp) + ", " + std::to_string(it->pid) + ", " + std::to_string(it->state) + ", \"" + convert_timestamp(it->timestamp) + "\", " + test_info + ")";
+            std::cout << INSERT_STATEMENT << std::endl;
             query_res = mysql_query(mysql, INSERT_STATEMENT.c_str());
             if (query_res)
             {

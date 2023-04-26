@@ -18,9 +18,10 @@ int main(int argc, char *argv[])
     // SockData *sock_data = extract_data(file_name);
     // deal_data(sock_data);
     const char *dest_ip = argc == 2 ? argv[1] : "101.43.161.79";
+    const char *test_info = argc == 3 ? argv[2] : "0";
     cmd_get_sk_add(sk_add, dest_ip);
     SockData *sock_data = new SockData(sk_add);
-    cmd_get_state_info(sock_data);
+    cmd_get_state_info(sock_data, test_info);
 
     delete sock_data;
 

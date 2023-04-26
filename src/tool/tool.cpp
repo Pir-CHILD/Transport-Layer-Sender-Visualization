@@ -180,3 +180,42 @@ void cmd_get_state_info(SockData *sock_data)
     //     std::cout << it->pid << " " << it->state << " " << it->timestamp << std::endl;
     // }
 }
+
+void cmd_get_state_info(SockData *sock_data, const char *test_info)
+{
+    DB *db = new DB{"101.43.161.79", "zq", "zaq.1234"};
+    const char *cmd = "stap-4.8 /home/test/Transport-Layer-Sender-Visualization/script/systemtap/get_state_info.stp";
+    FILE *fp = popen(cmd, "r");
+    assert(fp != NULL);
+
+    char buf[100];
+    std::string line, pid_t, state_t, sk_add_t, timestamp_t;
+    while (fgets(buf, 100, fp) != NULL)
+    {
+        line = buf;
+        // std::cout << line;
+
+        split(line, pid_t, state_t, sk_add_t, timestamp_t);
+        sk_add_t = sk_add_t.substr(5); // remove prefix "sk=0x"
+        // std::cout << sock_data->get_sk_add() << " " << sk_add_t << std::endl;
+        if (!sock_data->get_sk_add().compare(sk_add_t))
+        {
+            StateChangeInfoMsItem t;
+            t.pid = std::stoi(pid_t);
+            t.state = state_2_num(state_t);
+            t.timestamp = std::stoll(timestamp_t, NULL, 10);
+            sock_data->state_change_info.push_back(t);
+        }
+        clear_strings(line, pid_t, state_t, sk_add_t, timestamp_t);
+
+        if (sock_data->state_change_info.size() >= 10)
+        {
+            db->send_change_info_ms(sock_data, "cubic", test_info);
+            sock_data->state_change_info.clear();
+        }
+    }
+    // for (std::vector<StateChangeInfoMsItem>::iterator it = sock_data->state_change_info.begin(); it != sock_data->state_change_info.end(); it++)
+    // {
+    //     std::cout << it->pid << " " << it->state << " " << it->timestamp << std::endl;
+    // }
+}

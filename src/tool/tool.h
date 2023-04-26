@@ -25,4 +25,5 @@ void deal_data(SockData *sock_data);
 void cmd_get_sk_add(std::string &sk_add, const char *dest_ip);
 
 void cmd_get_state_info(SockData *sock_data);
+void cmd_get_state_info(SockData *sock_data, const char *test_info);
 #endif
