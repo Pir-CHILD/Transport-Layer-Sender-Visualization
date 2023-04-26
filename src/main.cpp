@@ -1,9 +1,21 @@
 #include "./sock_data/sock_data.h"
 #include "./tool/tool.h"
+#include "./3rdparty/CLI11.hpp"
 // #include "db.h"
 
 int main(int argc, char *argv[])
 {
+    /* CLI init */
+    CLI::App app;
+
+    std::string server_ip = "101.43.161.79";
+    app.add_option("--sIP", server_ip, "server IP");
+
+    std::string info = "0";
+    app.add_option("-i,--info", info, "test info");
+
+    CLI11_PARSE(app, argc, argv);
+
     // if (argc < 3)
     // {
     //     std::cerr << "Missing Parameters!" << std::endl;
@@ -17,8 +29,8 @@ int main(int argc, char *argv[])
 
     // SockData *sock_data = extract_data(file_name);
     // deal_data(sock_data);
-    const char *dest_ip = argc == 2 ? argv[1] : "101.43.161.79";
-    const char *test_info = argc == 3 ? argv[2] : "0";
+    const char *dest_ip = server_ip.c_str();
+    const char *test_info = info.c_str();
     cmd_get_sk_add(sk_add, dest_ip);
     SockData *sock_data = new SockData(sk_add);
     cmd_get_state_info(sock_data, test_info);

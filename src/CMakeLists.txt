@@ -8,6 +8,7 @@ set(SOURCES
     ./db/db.cpp
     ./tool/tool.cpp
     ./sock_data/sock_data.cpp
+    ./3rdparty/CLI11.hpp
 )
 
 add_executable(state_machine ${SOURCES})
