@@ -141,6 +141,7 @@ int DB::send_change_info_ms(SockData *sock_data, const char *cc_info)
 int DB::send_change_info_ms(SockData *sock_data, const char *cc_info, const char *test_info)
 {
     const char *d = "change_info";
+    // FIXME: 这里的table_name可以自行设置
     std::string table_name = strcmp(cc_info, "cubic") == 0
                                  ? "cubic_change_info"
                                  : "bbr_change_info";
@@ -173,10 +174,4 @@ int DB::send_change_info_ms(SockData *sock_data, const char *cc_info, const char
         return 0;
     }
     return 1;
-}
-
-int DB::send_transfer_info_min(SockData *sock_data, const char *cc_info, const char *test_info)
-{
-    // TODO
-    return 0;
 }

@@ -1,12 +1,20 @@
 # Transport-Layer-Sender-Visualization
-visualize the sender‘s info: Congesion Control State Machine, inflight, throught...
+visualize the sender‘s Congesion Control State(Open, Disorder, CWR, Recovery, Loss).
 
-need install libmysqlclient-dev
+need install `libmysqlclient-dev` and [SystemTap](https://sourceware.org/systemtap/).
 
 ```shell
-mkdir build
-cd build
-cmake ../src/
-make
-./state_machine dest_ip
+> mkdir -p ./build; cd ./build
+> cmake ../src/
+> make
+> ./state_machine --sIP dest_ip
 ```
+You can see more info by type `./state_machine --help`.
+```shell
+> ./state_machine --help
+Usage: ./state_machine [OPTIONS]
+
+Options:
+  -h,--help                   Print this help message and exit
+  --sIP TEXT                  server IP
+  -i,--info TEXT              test info

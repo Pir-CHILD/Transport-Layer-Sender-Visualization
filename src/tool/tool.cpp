@@ -117,7 +117,6 @@ void deal_data(SockData *sock_data)
         sock_data->state_count[it->state].count++;
         sock_data->timestamp_record.push_back(it->timestamp);
     }
-    // TODO: need to deal per min count?
 }
 
 void cmd_get_sk_add(std::string &sk_add, const char *dest_ip)
@@ -130,7 +129,7 @@ void cmd_get_sk_add(std::string &sk_add, const char *dest_ip)
 
     char buf[100];
     // ffff926719db88c0        47.94.104.34
-    // between isn't space but \t !!!
+    // 二者之间是 \t 不是空格!!!
     if (fgets(buf, 100, fp) != NULL)
     {
         char token[20] = "";
@@ -197,7 +196,7 @@ void cmd_get_state_info(SockData *sock_data, const char *test_info)
 
         split(line, pid_t, state_t, sk_add_t, timestamp_t);
         sk_add_t = sk_add_t.substr(5); // remove prefix "sk=0x"
-        // std::cout << sock_data->get_sk_add() << " " << sk_add_t << std::endl;
+
         if (!sock_data->get_sk_add().compare(sk_add_t))
         {
             StateChangeInfoMsItem t;

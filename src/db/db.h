@@ -15,7 +15,6 @@ public:
     int send_count_info(SockData *sock_data, const char *cc_info, const char *test_info);
     int send_change_info_ms(SockData *sock_data, const char *cc_info);
     int send_change_info_ms(SockData *sock_data, const char *cc_info, const char *test_info);
-    int send_transfer_info_min(SockData *sock_data, const char *cc_info, const char *test_info);
 
 private:
     MYSQL *mysql;

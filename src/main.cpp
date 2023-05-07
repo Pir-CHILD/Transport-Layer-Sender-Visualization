@@ -16,16 +16,7 @@ int main(int argc, char *argv[])
 
     CLI11_PARSE(app, argc, argv);
 
-    // if (argc < 3)
-    // {
-    //     std::cerr << "Missing Parameters!" << std::endl;
-    //     return 1;
-    // }
-    // else
-    // {
     std::string sk_add = "";
-    // const char *cc_info = argv[1]; // cubic or bbr
-    // const char *file_name = argv[2]; // test.txt
 
     // SockData *sock_data = extract_data(file_name);
     // deal_data(sock_data);
